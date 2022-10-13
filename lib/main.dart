@@ -89,15 +89,22 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
             child: const Text("Cancel"),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(context);
               showDialog(
                 context: context,
-                builder: (_) => const CircularProgressIndicator(),
+                builder: (_) =>
+                    const Center(child: CircularProgressIndicator()),
               );
-              AdHelper.loadRewardedAd(() {
-                saveImage();
-              });
+              try {
+                await AdHelper.loadRewardedAd();
+                AdHelper.showRewardedAd(() {
+                  Navigator.of(context).pop('dialog');
+                  saveImage();
+                });
+              } catch (e) {
+                Navigator.of(context).pop('dialog');
+              }
             },
             child: const Text("Watch Ad and Save"),
           ),

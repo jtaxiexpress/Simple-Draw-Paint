@@ -45,24 +45,35 @@ class AdHelper {
       : null;
   static RewardedAd? rewardedAd;
 
-  static loadRewardedAd(VoidCallback onUserEarned) async => rewardAd() != null
-      ? await RewardedAd.load(
-          adUnitId: rewardAd()!,
-          request: const AdRequest(),
-          rewardedAdLoadCallback: RewardedAdLoadCallback(
-            onAdLoaded: (ad) {
-              log("Ad loaded");
-              rewardedAd = ad
-                ..show(
-                  onUserEarnedReward: (ad, rewardItem) {
-                    onUserEarned();
-                  },
-                );
-            },
-            onAdFailedToLoad: (err) {
-              log("Failed to load ad, $err");
-            },
-          ),
-        )
-      : null;
+  static Future<void> loadRewardedAd() async =>
+      rewardAd() != null && rewardedAd == null
+          ? await RewardedAd.load(
+              adUnitId: rewardAd()!,
+              request: const AdRequest(),
+              rewardedAdLoadCallback: RewardedAdLoadCallback(
+                onAdLoaded: (ad) {
+                  log("Ad loaded");
+                  rewardedAd = ad;
+                },
+                onAdFailedToLoad: (err) {
+                  throw ("Failed to load ad, $err");
+                },
+              ),
+            )
+          : null;
+
+  static showRewardedAd(VoidCallback onUserEarned) {
+    if (rewardedAd != null) {
+      rewardedAd!.fullScreenContentCallback =
+          FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
+        ad.dispose();
+        loadRewardedAd();
+      }, onAdFailedToShowFullScreenContent: (ad, error) {
+        ad.dispose();
+        loadRewardedAd();
+      });
+      rewardedAd!.show(onUserEarnedReward: (_, __) => onUserEarned());
+      rewardedAd == null;
+    }
+  }
 }
