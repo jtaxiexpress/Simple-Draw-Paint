@@ -1,21 +1,29 @@
-import 'dart:convert';
 import 'dart:io';
 
+import 'package:drawing_app/ad_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_painter/image_painter.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 
-void main() => runApp(const ExampleApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
+
+  runApp(ExampleApp());
+}
 
 class ExampleApp extends StatelessWidget {
-  const ExampleApp({super.key});
+  ExampleApp({super.key}) {
+    AdHelper.loadAppLaunchAd();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Image Painter Example',
+      title: 'Drawing App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -83,7 +91,13 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              saveImage();
+              showDialog(
+                context: context,
+                builder: (_) => const CircularProgressIndicator(),
+              );
+              AdHelper.loadRewardedAd(() {
+                saveImage();
+              });
             },
             child: const Text("Watch Ad and Save"),
           ),
