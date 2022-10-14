@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdHelper {
-  static String? launchAdId() {
+  static String? get launchAdId {
     if (Platform.isAndroid) {
       return "ca-app-pub-8319377204356997/2243802885";
     } else if (Platform.isIOS) {
@@ -15,7 +15,7 @@ class AdHelper {
     return null;
   }
 
-  static String? rewardAd() {
+  static String? get rewardAd {
     if (Platform.isAndroid) {
       return "ca-app-pub-8319377204356997/1285944437";
     } else if (Platform.isIOS) {
@@ -27,9 +27,9 @@ class AdHelper {
 
   static AppOpenAd? openAd;
 
-  static loadAppLaunchAd() async => launchAdId() != null
+  static loadAppLaunchAd() async => launchAdId != null
       ? await AppOpenAd.load(
-          adUnitId: launchAdId()!,
+          adUnitId: launchAdId!,
           request: const AdRequest(),
           adLoadCallback: AppOpenAdLoadCallback(
             onAdLoaded: (ad) {
@@ -46,9 +46,9 @@ class AdHelper {
   static RewardedAd? rewardedAd;
 
   static Future<void> loadRewardedAd() async =>
-      rewardAd() != null && rewardedAd == null
+      rewardAd != null && rewardedAd == null
           ? await RewardedAd.load(
-              adUnitId: rewardAd()!,
+              adUnitId: rewardAd!,
               request: const AdRequest(),
               rewardedAdLoadCallback: RewardedAdLoadCallback(
                 onAdLoaded: (ad) {
@@ -75,5 +75,6 @@ class AdHelper {
       rewardedAd!.show(onUserEarnedReward: (_, __) => onUserEarned());
       rewardedAd == null;
     }
+    throw "Failed to load Reward ad";
   }
 }

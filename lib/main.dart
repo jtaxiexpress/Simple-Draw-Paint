@@ -104,6 +104,7 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
                 });
               } catch (e) {
                 Navigator.of(context).pop('dialog');
+                saveImage();
               }
             },
             child: const Text("Watch Ad and Save"),
