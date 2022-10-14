@@ -514,7 +514,7 @@ class ImagePainterState extends State<ImagePainter> {
       valueListenable: _isLoaded,
       builder: (_, loaded, __) {
         if (loaded) {
-          return widget.isSignature ? _paintSignature() : _paintImage();
+          return _paintSignature();
         } else {
           return Container(
             height: widget.height ?? double.maxFinite,
@@ -623,28 +623,10 @@ class ImagePainterState extends State<ImagePainter> {
           ),
         ),
         Positioned(
-          top: 0,
+          bottom: 0,
+          left: 0,
           right: 0,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                  tooltip: textDelegate.undo,
-                  icon: widget.undoIcon ??
-                      Icon(Icons.reply, color: Colors.grey[700]),
-                  onPressed: () {
-                    if (_paintHistory.isNotEmpty) {
-                      setState(_paintHistory.removeLast);
-                    }
-                  }),
-              IconButton(
-                tooltip: textDelegate.clearAllProgress,
-                icon: widget.clearAllIcon ??
-                    Icon(Icons.clear, color: Colors.grey[700]),
-                onPressed: () => setState(_paintHistory.clear),
-              ),
-            ],
-          ),
+          child: _buildControls(),
         ),
       ],
     );
@@ -811,7 +793,7 @@ class ImagePainterState extends State<ImagePainter> {
   ///Can be converted to image file by writing as bytes.
   Future<Uint8List?> exportImage() async {
     late ui.Image _convertedImage;
-    if (widget.isSignature) {
+    if (widget.isSignature || true) {
       final _boundary = _repaintKey.currentContext!.findRenderObject()
           as RenderRepaintBoundary;
       _convertedImage = await _boundary.toImage(pixelRatio: 3);

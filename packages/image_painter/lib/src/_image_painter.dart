@@ -43,7 +43,7 @@ class DrawImage extends CustomPainter {
           Rect.fromPoints(const Offset(0, 0), Offset(size.width, size.height)),
           Paint()
             ..style = PaintingStyle.fill
-            ..color = backgroundColor!);
+            ..color = backgroundColor ?? Colors.white);
     } else {
       ///paints [ui.Image] on the canvas for reference to draw over it.
 

@@ -47,7 +47,8 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
 
   void saveImage() async {
     final messenger = ScaffoldMessenger.of(context);
-    final image = await _imageKey.currentState?.exportImage();
+    if (_imageKey.currentState == null) return;
+    final image = await _imageKey.currentState!.exportImage();
     final directory = (await getApplicationDocumentsDirectory()).path;
     await Directory('$directory/sample').create(recursive: true);
     final fullPath =
@@ -98,7 +99,7 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
                     const Center(child: CircularProgressIndicator()),
               );
               try {
-                await AdHelper.loadRewardedAd();
+                // await AdHelper.loadRewardedAd();
                 AdHelper.showRewardedAd(() {
                   Navigator.of(context).pop('dialog');
                   saveImage();
@@ -123,8 +124,8 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
         body: ImagePainter(
           key: _imageKey,
           scalable: true,
-          width: 800,
-          height: 800,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           extraWidget: IconButton(
             onPressed: showSavePopup,
             icon: const Icon(CupertinoIcons.arrow_down_to_line),
