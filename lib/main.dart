@@ -99,7 +99,7 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
                     const Center(child: CircularProgressIndicator()),
               );
               try {
-                // await AdHelper.loadRewardedAd();
+                await AdHelper.loadRewardedAd();
                 AdHelper.showRewardedAd(() {
                   Navigator.of(context).pop('dialog');
                   saveImage();
