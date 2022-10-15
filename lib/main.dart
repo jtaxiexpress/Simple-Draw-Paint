@@ -4,6 +4,7 @@ import 'package:drawing_app/ad_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_painter/image_painter.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -55,6 +56,7 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
         '$directory/sample/${DateTime.now().millisecondsSinceEpoch}.png';
     final imgFile = File(fullPath);
     imgFile.writeAsBytesSync(image!);
+    ImageGallerySaver.saveFile(imgFile.path);
     messenger.showSnackBar(
       SnackBar(
         backgroundColor: Colors.grey[700],

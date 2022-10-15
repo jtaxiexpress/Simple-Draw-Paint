@@ -37,6 +37,7 @@ dependencies:
   path_provider: ^2.0.9
   cupertino_icons: ^1.0.5
   google_mobile_ads: ^2.1.0
+  image_gallery_saver: ^1.7.1
 
 dev_dependencies:
   flutter_test:
