@@ -49,5 +49,7 @@
 	<true/>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-8319377204356997~2407454415</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Need library access to save imaegs to library</string>
 </dict>
 </plist>

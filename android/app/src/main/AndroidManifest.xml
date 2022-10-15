@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.drawing_app">
    <application
+        android:requestLegacyExternalStorage="true"
         android:label="drawing_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
@@ -34,4 +35,5 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-8319377204356997~2435374571"/>
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

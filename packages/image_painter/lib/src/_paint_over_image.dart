@@ -528,58 +528,6 @@ class ImagePainterState extends State<ImagePainter> {
     );
   }
 
-  ///paints image on given constrains for drawing if image is not null.
-  Widget _paintImage() {
-    return Container(
-      child: Column(
-        children: [
-          if (widget.controlsAtTop) _buildControls(),
-          Expanded(
-            child: FittedBox(
-              alignment: FractionalOffset.center,
-              child: ClipRect(
-                child: ValueListenableBuilder<Controller>(
-                  valueListenable: _controller,
-                  builder: (_, controller, __) {
-                    return ImagePainterTransformer(
-                      maxScale: 2.4,
-                      minScale: 1,
-                      panEnabled: controller.mode == PaintMode.none,
-                      scaleEnabled: widget.isScalable!,
-                      onInteractionUpdate: (details) =>
-                          _scaleUpdateGesture(details, controller),
-                      onInteractionEnd: (details) =>
-                          _scaleEndGesture(details, controller),
-                      child: CustomPaint(
-                        size: Size(widget.width ?? 100, widget.height ?? 100),
-                        willChange: true,
-                        isComplex: true,
-                        painter: DrawImage(
-                          backgroundColor: widget.signatureBackgroundColor,
-                          image: _image,
-                          points: _points,
-                          paintHistory: _paintHistory,
-                          isDragging: _inDrag,
-                          update: UpdatePoints(
-                              start: _start,
-                              end: _end,
-                              painter: _painter,
-                              mode: controller.mode),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
-          if (!widget.controlsAtTop) _buildControls(),
-          SizedBox(height: MediaQuery.of(context).padding.bottom)
-        ],
-      ),
-    );
-  }
-
   Widget _paintSignature() {
     return Stack(
       children: [
@@ -697,22 +645,6 @@ class ImagePainterState extends State<ImagePainter> {
         ),
       );
 
-  ///Provides [ui.Image] of the recorded canvas to perform action.
-  Future<ui.Image> _renderImage() async {
-    final recorder = ui.PictureRecorder();
-    final canvas = Canvas(recorder);
-    final painter = DrawImage(
-      image: _image,
-      paintHistory: _paintHistory,
-      backgroundColor: widget.signatureBackgroundColor,
-    );
-    final size = Size(_image!.width.toDouble(), _image!.height.toDouble());
-    painter.paint(canvas, size);
-    return recorder
-        .endRecording()
-        .toImage(size.width.floor(), size.height.floor());
-  }
-
   PopupMenuItem _showOptionsRow(Controller controller) {
     return PopupMenuItem(
       enabled: false,
@@ -797,11 +729,8 @@ class ImagePainterState extends State<ImagePainter> {
       final _boundary = _repaintKey.currentContext!.findRenderObject()
           as RenderRepaintBoundary;
       _convertedImage = await _boundary.toImage(pixelRatio: 3);
-    } else if (widget.byteArray != null && _paintHistory.isEmpty) {
-      return widget.byteArray;
-    } else {
-      _convertedImage = await _renderImage();
     }
+
     final byteData =
         await _convertedImage.toByteData(format: ui.ImageByteFormat.png);
     return byteData?.buffer.asUint8List();
