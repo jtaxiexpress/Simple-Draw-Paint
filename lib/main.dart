@@ -120,23 +120,21 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        key: _key,
-        body: ImagePainter(
-          key: _imageKey,
-          scalable: true,
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          extraWidget: IconButton(
-            onPressed: showSavePopup,
-            icon: const Icon(CupertinoIcons.arrow_down_to_line),
-          ),
-          initialStrokeWidth: 2,
-          initialColor: Colors.blue,
-          initialPaintMode: PaintMode.freeStyle,
-          controlsAtTop: false,
+    return Scaffold(
+      key: _key,
+      body: ImagePainter(
+        key: _imageKey,
+        scalable: true,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        extraWidget: IconButton(
+          onPressed: showSavePopup,
+          icon: const Icon(CupertinoIcons.arrow_down_to_line),
         ),
+        initialStrokeWidth: 2,
+        initialColor: Colors.blue,
+        initialPaintMode: PaintMode.freeStyle,
+        controlsAtTop: false,
       ),
     );
   }
