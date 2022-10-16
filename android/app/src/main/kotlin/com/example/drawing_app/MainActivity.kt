@@ -1,4 +1,4 @@
-package com.example.drawing_app
+package com.Simple-Draw-Paint
 
 import io.flutter.embedding.android.FlutterActivity
 
