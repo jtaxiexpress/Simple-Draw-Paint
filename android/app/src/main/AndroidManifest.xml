@@ -2,7 +2,7 @@
     package="com.Simple-Draw-Paint">
    <application
         android:requestLegacyExternalStorage="true"
-        android:label="drawing_app"
+        android:label="Simple Draw Paint"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
