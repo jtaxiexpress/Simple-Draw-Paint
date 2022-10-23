@@ -1,9 +1,9 @@
-name: drawing_app
-description: A new Flutter project.
+name: Simple_Draw_Paint
+description: This is Simple Draw Paint App .
 
 publish_to: "none"
 
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.18.2 <3.0.0"

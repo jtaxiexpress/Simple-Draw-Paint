@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:drawing_app/ad_helper.dart';
+import 'package:Simple_Draw_Paint/ad_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
