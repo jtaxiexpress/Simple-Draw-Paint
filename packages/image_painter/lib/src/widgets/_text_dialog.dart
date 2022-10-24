@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../delegates/text_delegate.dart';
 
 class TextDialog extends StatelessWidget {
-  const TextDialog(
+  TextDialog(
       {Key? key,
       required this.controller,
       required this.fontSize,

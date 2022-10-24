@@ -8,6 +8,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_painter/image_painter.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,9 @@ class ExampleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Simple Draw Paint',
+      title: " Simple Draw Paint",
+      localizationsDelegates: AppLocalizations.localizationsDelegates, // 追加
+      supportedLocales: AppLocalizations.supportedLocales, // 追加
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -64,7 +67,9 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
         content: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text("Image Exported successfully.",
+            Text(
+                //"Image Exported successfully."
+                AppLocalizations.of(context).success,
                 style: TextStyle(color: Colors.white)),
             TextButton(
               onPressed: () => OpenFile.open(fullPath),
@@ -85,12 +90,19 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Save Image"),
-        content: const Text("You have to watch a video ad to save the image."),
+        title: Text(
+
+            //"Save Image"
+            AppLocalizations.of(context).saveImage),
+        content: Text(
+            //"You have to watch a video ad to save the image."
+            AppLocalizations.of(context).saveDescription),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("Cancel"),
+            child: Text(
+                //"Cancel"
+                AppLocalizations.of(context).cancel),
           ),
           TextButton(
             onPressed: () async {
@@ -111,7 +123,10 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
                 saveImage();
               }
             },
-            child: const Text("Watch Ad and Save"),
+            child: Text(
+
+                // "Watch Ad and Save"
+                AppLocalizations.of(context).save),
           ),
         ],
       ),
