@@ -32,7 +32,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  generate: true
+  generate: true #追加
+
 assets:
   - assets/images
 

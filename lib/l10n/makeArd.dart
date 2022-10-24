@@ -2,7 +2,7 @@ import 'dart:io';
 
 const rowLang = 1;
 const colJsonProperty = 2;
-const dirL10n = 'packages/image_painter/lib/l10n';
+const dirL10n = 'lib/l10n';
 const tsvName = 'app.tsv';
 
 void main() async {

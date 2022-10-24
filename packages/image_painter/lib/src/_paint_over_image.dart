@@ -651,7 +651,7 @@ class ImagePainterState extends State<ImagePainter> {
       child: Center(
         child: SizedBox(
           child: Wrap(
-            children: paintModes(textDelegate)
+            children: paintModes(context, textDelegate)
                 .map(
                   (item) => SelectionItems(
                     data: item,
@@ -801,7 +801,7 @@ class ImagePainterState extends State<ImagePainter> {
                       borderRadius: BorderRadius.circular(40),
                     ),
                     icon: Icon(
-                        paintModes(textDelegate)
+                        paintModes(context, textDelegate)
                             .firstWhere((item) => item.mode == _ctrl.mode)
                             .icon,
                         color: Colors.grey[700]),

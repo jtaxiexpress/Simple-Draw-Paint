@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../delegates/text_delegate.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TextDialog extends StatelessWidget {
   TextDialog(
@@ -53,7 +54,7 @@ class TextDialog extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: TextButton(
                 child: Text(
-                  textDelegate.done,
+                  AppLocalizations.of(context).done,
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
