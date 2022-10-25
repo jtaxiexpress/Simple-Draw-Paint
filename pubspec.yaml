@@ -3,7 +3,7 @@ description: This is Simple Draw Paint App .
 
 publish_to: "none"
 
-version: 1.0.0+3
+version: 1.0.0+4
 
 environment:
   sdk: ">=2.18.2 <3.0.0"
@@ -17,7 +17,8 @@ dependencies:
   image_painter:
     path: packages/image_painter/
   intl: ^0.17.0
-  open_file: ^3.2.1
+  # open_file: ^3.2.1
+  better_open_file: ^3.6.4
   path_provider: ^2.0.9
   cupertino_icons: ^1.0.5
   google_mobile_ads: ^2.1.0
