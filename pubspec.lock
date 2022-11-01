@@ -22,13 +22,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
-  better_open_file:
-    dependency: "direct main"
-    description:
-      name: better_open_file
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.6.4"
   boolean_selector:
     dependency: transitive
     description:
@@ -205,6 +198,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  open_filex:
+    dependency: "direct main"
+    description:
+      name: open_filex
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.2.2"
   path:
     dependency: transitive
     description:
