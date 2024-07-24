@@ -40,7 +40,6 @@ class AdHelper {
               log("Failed to load ad, $err");
             },
           ),
-          orientation: AppOpenAd.orientationPortrait,
         )
       : null;
   static RewardedAd? rewardedAd;

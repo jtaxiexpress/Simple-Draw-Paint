@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:Simple_Draw_Paint/ad_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_painter/image_painter.dart';
 import 'package:open_file/open_file.dart';
@@ -25,45 +24,6 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
     mode: PaintMode.line,
   );
   final _key = GlobalKey<ScaffoldState>();
-
-/*
-  void saveImage() async {
-    final messenger = ScaffoldMessenger.of(context);
-    if (_imageKey.currentState == null) return;
-    final image = await _controller.exportImage();
-    final directory = (await getApplicationDocumentsDirectory()).path;
-    await Directory('$directory/sample').create(recursive: true);
-    final fullPath =
-        '$directory/sample/${DateTime.now().millisecondsSinceEpoch}.png';
-    final imgFile = File(fullPath);
-    imgFile.writeAsBytesSync(image!);
-    ImageGallerySaver.saveFile(imgFile.path);
-    messenger.showSnackBar(
-      SnackBar(
-        backgroundColor: Colors.grey[700],
-        padding: const EdgeInsets.only(left: 10),
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-                //"Image Exported successfully."
-                AppLocalizations.of(context)!.success,
-                style: TextStyle(color: Colors.white)),
-            TextButton(
-              onPressed: () => OpenFilex.open(fullPath),
-              child: Text(
-                "Open",
-                style: TextStyle(
-                  color: Colors.blue[200],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-*/
 
   void showSavePopup() {
     showDialog(
@@ -111,9 +71,9 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         key: _key,
         body: ImagePainter.asset(
@@ -123,31 +83,16 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
           textDelegate: TextDelegate(),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          controlsAtTop:false,
+          controlsAtTop: false,
+          controlsBackgroundColor: Colors.white.withOpacity(0.8),
           showControls: true,
-          placeholderWidget:IconButton(
+          placeholderWidget: IconButton(
             onPressed: showSavePopup,
             icon: const Icon(CupertinoIcons.arrow_down_to_line),
-          ) ,
-
-        )
-
-        /*ImagePainter(
-        key: _imageKey,
-        scalable: true,
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        extraWidget: IconButton(
-          onPressed: showSavePopup,
-          icon: const Icon(CupertinoIcons.arrow_down_to_line),
-        ),
-        initialStrokeWidth: 2,
-        initialColor: Colors.blue,
-        initialPaintMode: PaintMode.freeStyle,
-        controlsAtTop: false,
-      ),*/
-        );
+          ),
+        ));
   }
+
   void saveImage() async {
     final image = await _controller.exportImage();
     final imageName = '${DateTime.now().millisecondsSinceEpoch}.png';
@@ -157,6 +102,7 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
     final imgFile = File('$fullPath');
     if (image != null) {
       imgFile.writeAsBytesSync(image);
+      final result = await ImageGallerySaver.saveFile(imgFile.path);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.grey[700],
@@ -164,8 +110,7 @@ class _ImagePainterExampleState extends State<ImagePainterExample> {
           content: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("Image Exported successfully.",
-                  style: TextStyle(color: Colors.white)),
+              const Text("Open Preview", style: TextStyle(color: Colors.white)),
               TextButton(
                 onPressed: () => OpenFile.open("$fullPath"),
                 child: Text(

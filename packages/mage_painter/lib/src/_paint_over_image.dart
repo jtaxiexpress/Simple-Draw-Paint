@@ -51,36 +51,31 @@ class ImagePainter extends StatefulWidget {
     this.onClear,
   }) : super(key: key);
 
-
-
-
-
-  factory ImagePainter(
-      {
-        required ImagePainterController controller,
-        Key? key,
-        double? height,
-        double? width,
-        Widget? placeholderWidget,
-        bool? scalable,
-        List<Color>? colors,
-        Widget? brushIcon,
-        Widget? undoIcon,
-        Widget? clearAllIcon,
-        Widget? colorIcon,
-        ValueChanged<PaintMode>? onPaintModeChanged,
-        ValueChanged<Color>? onColorChanged,
-        ValueChanged<double>? onStrokeWidthChanged,
-        TextDelegate? textDelegate,
-        bool? controlsAtTop,
-        bool? showControls,
-        Color? controlsBackgroundColor,
-        Color? selectedColor,
-        Color? unselectedColor,
-        Color? optionColor,
-        VoidCallback? onUndo,
-        VoidCallback? onClear,
-      }) {
+  factory ImagePainter({
+    required ImagePainterController controller,
+    Key? key,
+    double? height,
+    double? width,
+    Widget? placeholderWidget,
+    bool? scalable,
+    List<Color>? colors,
+    Widget? brushIcon,
+    Widget? undoIcon,
+    Widget? clearAllIcon,
+    Widget? colorIcon,
+    ValueChanged<PaintMode>? onPaintModeChanged,
+    ValueChanged<Color>? onColorChanged,
+    ValueChanged<double>? onStrokeWidthChanged,
+    TextDelegate? textDelegate,
+    bool? controlsAtTop,
+    bool? showControls,
+    Color? controlsBackgroundColor,
+    Color? selectedColor,
+    Color? unselectedColor,
+    Color? optionColor,
+    VoidCallback? onUndo,
+    VoidCallback? onClear,
+  }) {
     return ImagePainter._(
       key: key,
       controller: controller,
@@ -476,6 +471,7 @@ class ImagePainterState extends State<ImagePainter> {
   @override
   void initState() {
     super.initState();
+
     _isLoaded = ValueNotifier<bool>(false);
     _controller = widget.controller;
     if (widget.isSignature) {
@@ -598,45 +594,39 @@ class ImagePainterState extends State<ImagePainter> {
 
   ///paints image on given constrains for drawing if image is not null.
   Widget _paintImage() {
-    return Container(
-      height: widget.height ?? double.maxFinite,
-      width: widget.width ?? double.maxFinite,
-      child: Column(
-        children: [
-          if (widget.controlsAtTop && widget.showControls) _buildControls(),
-          Expanded(
-            child: FittedBox(
-              alignment: FractionalOffset.center,
-              child: ClipRect(
-                child: AnimatedBuilder(
-                  animation: _controller,
-                  builder: (context, child) {
-                    return InteractiveViewer(
-                      transformationController: _transformationController,
-                      maxScale: 2.4,
-                      minScale: 1,
-                      panEnabled: _controller.mode == PaintMode.none,
-                      scaleEnabled: widget.isScalable!,
-                      onInteractionUpdate: _scaleUpdateGesture,
-                      onInteractionEnd: _scaleEndGesture,
-                      child: CustomPaint(
-                        size: imageSize,
-                        willChange: true,
-                        isComplex: true,
-                        painter: DrawImage(
-                          controller: _controller,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+    return Stack(
+      children: [
+        FittedBox(
+          child: ClipRect(
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                return InteractiveViewer(
+                  transformationController: _transformationController,
+                  maxScale: 2.4,
+                  minScale: 1,
+                  panEnabled: _controller.mode == PaintMode.freeStyle,
+                  scaleEnabled: widget.isScalable!,
+                  onInteractionUpdate: _scaleUpdateGesture,
+                  onInteractionEnd: _scaleEndGesture,
+                  child: CustomPaint(
+                    size: imageSize,
+                    willChange: true,
+                    isComplex: true,
+                    painter: DrawImage(
+                      controller: _controller,
+                    ),
+                  ),
+                );
+              },
             ),
           ),
-          if (!widget.controlsAtTop && widget.showControls) _buildControls(),
-          SizedBox(height: MediaQuery.of(context).padding.bottom)
-        ],
-      ),
+        ),
+        Container(
+            padding: EdgeInsets.only(bottom: 3),
+            alignment: Alignment.bottomCenter,
+            child: _buildControls()),
+      ],
     );
   }
 
@@ -681,13 +671,13 @@ class ImagePainterState extends State<ImagePainter> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  tooltip: textDelegate.undo,
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
                   icon: widget.undoIcon ??
                       Icon(Icons.reply, color: Colors.grey[700]),
                   onPressed: () => _controller.undo(),
                 ),
                 IconButton(
-                  tooltip: textDelegate.clearAllProgress,
                   icon: widget.clearAllIcon ??
                       Icon(Icons.clear, color: Colors.grey[700]),
                   onPressed: () => _controller.clear(),
@@ -769,7 +759,7 @@ class ImagePainterState extends State<ImagePainter> {
       child: Center(
         child: SizedBox(
           child: Wrap(
-            children: paintModes(textDelegate)
+            children: paintModes(context, textDelegate)
                 .map(
                   (item) => SelectionItems(
                     data: item,
@@ -880,18 +870,17 @@ class ImagePainterState extends State<ImagePainter> {
 
   Widget _buildControls() {
     return Container(
-      padding: const EdgeInsets.all(4),
+      padding: const EdgeInsets.only(left: 5, right: 5),
       color: widget.controlsBackgroundColor ?? Colors.grey[200],
       child: Row(
         children: [
           AnimatedBuilder(
             animation: _controller,
             builder: (_, __) {
-              final icon = paintModes(textDelegate)
+              final icon = paintModes(context, textDelegate)
                   .firstWhere((item) => item.mode == _controller.mode)
                   .icon;
               return PopupMenuButton(
-                tooltip: textDelegate.changeMode,
                 shape: ContinuousRectangleBorder(
                   borderRadius: BorderRadius.circular(40),
                 ),
@@ -910,10 +899,8 @@ class ImagePainterState extends State<ImagePainter> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 surfaceTintColor: Colors.transparent,
-                tooltip: textDelegate.changeColor,
                 icon: widget.colorIcon ??
                     Container(
-                      padding: const EdgeInsets.all(2.0),
                       height: 24,
                       width: 24,
                       decoration: BoxDecoration(
@@ -927,13 +914,12 @@ class ImagePainterState extends State<ImagePainter> {
             },
           ),
           PopupMenuButton(
-            tooltip: textDelegate.changeBrushSize,
             surfaceTintColor: Colors.transparent,
             shape: ContinuousRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            icon:
-                widget.brushIcon ?? Icon(Icons.brush, color: Colors.grey[700]),
+            icon: widget.brushIcon ??
+                Icon(Icons.line_weight, color: Colors.grey[700]),
             itemBuilder: (_) => [_showRangeSlider()],
           ),
           AnimatedBuilder(
@@ -943,6 +929,7 @@ class ImagePainterState extends State<ImagePainter> {
                 return Row(
                   children: [
                     Checkbox(
+                      activeColor: _controller.color,
                       value: _controller.shouldFill,
                       onChanged: (val) {
                         _controller.update(fill: val);
@@ -961,7 +948,6 @@ class ImagePainterState extends State<ImagePainter> {
           ),
           const Spacer(),
           IconButton(
-            tooltip: textDelegate.undo,
             icon: widget.undoIcon ?? Icon(Icons.reply, color: Colors.grey[700]),
             onPressed: () {
               widget.onUndo?.call();
@@ -969,7 +955,6 @@ class ImagePainterState extends State<ImagePainter> {
             },
           ),
           IconButton(
-            tooltip: textDelegate.clearAllProgress,
             icon: widget.clearAllIcon ??
                 Icon(Icons.clear, color: Colors.grey[700]),
             onPressed: () {
@@ -977,7 +962,6 @@ class ImagePainterState extends State<ImagePainter> {
               _controller.clear();
             },
           ),
-
           widget.placeHolder!
         ],
       ),
