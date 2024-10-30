@@ -31,6 +31,7 @@ class SimpleDrawApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales, // 追加
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        useMaterial3: false,
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),

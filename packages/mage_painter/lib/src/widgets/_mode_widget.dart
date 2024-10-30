@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../image_painter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SelectionItems extends StatelessWidget {
   final bool isSelected;
@@ -54,37 +53,21 @@ class SelectionItems extends StatelessWidget {
 
 List<ModeData> paintModes(BuildContext context, TextDelegate textDelegate) => [
       ModeData(
-          icon: Icons.zoom_out_map,
-          mode: PaintMode.none,
-          label: AppLocalizations.of(context)!.noSelection),
+          icon: Icons.zoom_out_map, mode: PaintMode.none, label: 'noSelection'),
       ModeData(
-          icon: Icons.horizontal_rule,
-          mode: PaintMode.line,
-          label: AppLocalizations.of(context)!.line),
+          icon: Icons.horizontal_rule, mode: PaintMode.line, label: 'line'),
       ModeData(
-          icon: Icons.crop_free,
-          mode: PaintMode.rect,
-          label: AppLocalizations.of(context)!.quadrangle),
+          icon: Icons.crop_free, mode: PaintMode.rect, label: 'quadrangle'),
+      ModeData(icon: Icons.edit, mode: PaintMode.freeStyle, label: 'pen'),
       ModeData(
-          icon: Icons.edit,
-          mode: PaintMode.freeStyle,
-          label: AppLocalizations.of(context)!.pen),
-      ModeData(
-          icon: Icons.lens_outlined,
-          mode: PaintMode.circle,
-          label: AppLocalizations.of(context)!.circle),
+          icon: Icons.lens_outlined, mode: PaintMode.circle, label: 'circle'),
       ModeData(
           icon: Icons.arrow_right_alt_outlined,
           mode: PaintMode.arrow,
-          label: AppLocalizations.of(context)!.arrow),
+          label: 'arrow'),
       ModeData(
-          icon: Icons.power_input,
-          mode: PaintMode.dashLine,
-          label: AppLocalizations.of(context)!.dashLine),
-      ModeData(
-          icon: Icons.text_format,
-          mode: PaintMode.text,
-          label: AppLocalizations.of(context)!.text),
+          icon: Icons.power_input, mode: PaintMode.dashLine, label: 'dashLine'),
+      ModeData(icon: Icons.text_format, mode: PaintMode.text, label: 'text'),
     ];
 
 @immutable
